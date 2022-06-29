@@ -1,7 +1,7 @@
-source "http://rubygems.org"
+source 'http://rubygems.org'
 
+gem 'activesupport'
 gem 'nokogiri'
 gem 'open-uri'
-gem 'rspec'
 gem 'pry'
-gem 'activesupport'
+gem 'rspec'
