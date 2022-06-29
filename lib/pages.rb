@@ -1,5 +1,4 @@
-require 'nokogiri'
-require 'open-uri'
+Bundler.require(:default)
 
 class Pages
   attr_reader :data

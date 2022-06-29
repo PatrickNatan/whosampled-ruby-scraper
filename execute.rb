@@ -1,6 +1,4 @@
-require 'nokogiri'
-require 'open-uri'
-require 'json'
+Bundler.require(:default)
 require_relative 'lib/pages'
 
 tag = ARGV[0]
