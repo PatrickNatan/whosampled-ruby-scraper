@@ -3,11 +3,16 @@ require 'open-uri'
 require 'json'
 require_relative 'lib/pages'
 
-tag = "Brazilian%20Rap"
+tag = ARGV[0]
+total_pages = ARGV[1] || 1 
+puts '======================'
+puts "TAG: #{tag}"
+puts "PAGES: #{total_pages}"
+puts '======================'
 
-1.times do |t|
+total_pages.times do |t|
   puts '||||||||||||||||||||||'
-  puts "PAGINA #{t+1}"
+  puts "PAGE #{t+1}"
   puts '||||||||||||||||||||||'
 
   url = "https://www.whosampled.com/song-tag/#{tag}/#{t+1}"
