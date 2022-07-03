@@ -8,63 +8,49 @@ class Pages
   end
 
   def call
-    arr = []
-
     list = data.css('div.leftContent').css('div.artistContent')
 
-    list.search('article').each do |article|
+    list.search('article').map do |article|
       song = article.css('h3.trackName')
       puts '-----------------------'
-      n =  song.css('a').css('span').text
-      puts n
+      name_song =  song.css('a').css('span').text
+      puts name_song
       puts '-----------------------'
-      arr << {
-        name: song.css('a').css('span').text,
+      {
+        name: name_song,
         year: song.css('span.trackYear').text.gsub(/[^\d]/, '').to_i,
         artist: article.css('span.trackArtistName').css('a').text
       }.merge(sample(song.css('a')[0]['href']))
     end
-    arr
   end
 
   def sample(url)
-    arr_sample = []
-    arr_sampled = []
     page = Nokogiri::HTML(URI.open("https://www.whosampled.com#{url}"))
     sections = page.css('div.leftContent').css('section')
+
     list = sections.map do |section|
       section unless section.css('header.sectionHeader').empty?
     end.compact!
 
-    list.each do |data|
+    connections = list.map do |data|
       header = data.css('header')
-      show_more_songs = header.css('a.moreButton')
-      if header.text.include?('samples')
-        if show_more_songs.empty?
-          data.search('div.listEntry').each do |song|
-            arr_sample << sub_song(song)
-          end
-        else
-          arr_sample << more_data(show_more_songs[0]['href'])
-        end
-      elsif show_more_songs.empty?
-        data.search('div.listEntry').each do |song|
-          arr_sampled << sub_song(song)
-        end
+      more_songs = header.css('a.moreButton')
+      number_of_songs = header.text.scan(/\d+/)[0].to_i
+      text = header.text.split[0..2].join("_").downcase
+      if number_of_songs < 4
+        Hash[text.to_sym, data.search('div.listEntry').map { |song| sub_song(song) }]
       else
-        arr_sampled << more_data(show_more_songs[0]['href'])
+        Hash[text.to_sym, more_data(more_songs[0]['href'])]
       end
     end
 
     genre = page.css('section.track-meta').css('a')[0].text
-    { genre: genre, sample: arr_sample.flatten }.merge({ sampled: arr_sampled.flatten })
+    connections.reduce({ genre: genre }, :merge)
   end
 
   def more_data(url)
     page = Nokogiri::HTML(URI.open("https://www.whosampled.com#{url}"))
-    page.search('div.listEntry').map do |song|
-      sub_song(song)
-    end
+    page.search('div.listEntry').map { |song| sub_song(song)}
   end
 
   def sub_song(song)
