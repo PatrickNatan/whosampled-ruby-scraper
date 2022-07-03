@@ -13,7 +13,7 @@ Data Structure
       "genre":"GENRE",
       "year":1,
       "artist":"ARTIST",
-      "sample":[
+      "contains_samples_of":[
          {
             "name":"MUSIC SAMPLE 1",
             "genre":"GENRE",
@@ -21,12 +21,44 @@ Data Structure
             "artist":"ONE SAMPLE"
          }
       ],
-      "sampled":[
+      "was_sampled_in":[
          {
             "name":"MUSIC SAMPLED 1",
             "genre":"GENRE",
             "year":2000,
             "artist":"ONE SAMPLED"
+         }
+      ]
+      "was_covered_in":[
+         {
+            "name":"MUSIC COVERED 1",
+            "genre":"GENRE",
+            "year":2000,
+            "artist":"ONE COVERED"
+         }
+      ],
+      "is_a_cover":[
+         {
+            "name":"MUSIC COVER 1",
+            "genre":"GENRE",
+            "year":2000,
+            "artist":"ONE COVER"
+         }
+      ],
+      "was_remixed_in":[
+         {
+            "name":"MUSIC REMIXED 1",
+            "genre":"GENRE",
+            "year":2000,
+            "artist":"ONE REMIXED"
+         }
+      ],
+      "is_a_remix":[
+         {
+            "name":"MUSIC REMIX 1",
+            "genre":"GENRE",
+            "year":2000,
+            "artist":"ONE REMIX"
          }
       ]
    }
@@ -70,10 +102,7 @@ Create a pageIraq.json
       "year":2005,
       "artist":"Majid Al Muhandis",
       "genre":"Other",
-      "sample":[
-         
-      ],
-      "sampled":[
+      "was_sampled_in":[
          {
             "name":"Der Junge Said",
             "year":2008,
@@ -87,10 +116,7 @@ Create a pageIraq.json
       "year":1973,
       "artist":"Saadoun Al-Bayati",
       "genre":"World / Latin",
-      "sample":[
-         
-      ],
-      "sampled":[
+      "was_sampled_in":[
          {
             "name":"Beat 2#",
             "year":2009,
@@ -104,10 +130,7 @@ Create a pageIraq.json
       "year":2018,
       "artist":"I-NZ",
       "genre":"Hip-Hop / Rap / R&B",
-      "sample":[
-         
-      ],
-      "sampled":[
+      "is_a_cover":[
          {
             "name":"This Is America",
             "year":2018,
