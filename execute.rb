@@ -3,13 +3,13 @@ Bundler.require(:default)
 require_relative 'lib/pages'
 
 tag = ARGV[0]
-total_pages = ARGV[1] || 1
+total_pages = ARGV[1] || "1"
 puts '======================'
 puts "TAG: #{tag}"
 puts "PAGES: #{total_pages}"
 puts '======================'
 
-total_pages.times do |t|
+total_pages.to_i.times do |t|
   puts '||||||||||||||||||||||'
   puts "PAGE #{t + 1}"
   puts '||||||||||||||||||||||'
