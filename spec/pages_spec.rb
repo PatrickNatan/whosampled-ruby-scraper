@@ -15,11 +15,23 @@ RSpec.describe Pages do
       allow(URI).to receive(:open).with('https://www.whosampled.com/Racionais-MC%27s/Vida-Loka-(Parte-II)/').and_return(second_song)
       third_song = open('./spec/fixtures/sambadabencao.html')
       allow(URI).to receive(:open).with('https://www.whosampled.com/Bebel-Gilberto/Samba-Da-Ben%C3%A7%C3%A3o/').and_return(third_song)
+      four_song = open('./spec/fixtures/aquareladobrasil.html')
+      four_song_sampled = open('./spec/fixtures/aquareladobrasilsampled.html')
+      four_song_covered = open('./spec/fixtures/aquareladobrasilcovered1.html')
+      four_song_second_page = open('./spec/fixtures/aquareladobrasilcovered2.html')
+      four_song_third_page = open('./spec/fixtures/aquareladobrasilcovered3.html')
+      four_song_four_page = open('./spec/fixtures/aquareladobrasilcovered4.html')
+      allow(URI).to receive(:open).with('https://www.whosampled.com/Francisco-Alves/Aquarela-Do-Brasil/').and_return(four_song)
+      allow(URI).to receive(:open).with('https://www.whosampled.comhttps://www.whosampled.com/Francisco-Alves/Aquarela-Do-Brasil/sampled/').and_return(four_song_sampled)
+      allow(URI).to receive(:open).with('https://www.whosampled.comhttps://www.whosampled.com/Francisco-Alves/Aquarela-Do-Brasil/covered/').and_return(four_song_covered)
+      allow(URI).to receive(:open).with('https://www.whosampled.comhttps://www.whosampled.com/Francisco-Alves/Aquarela-Do-Brasil/covered/?cp=2').and_return(four_song_second_page)
+      allow(URI).to receive(:open).with('https://www.whosampled.comhttps://www.whosampled.com/Francisco-Alves/Aquarela-Do-Brasil/covered/?cp=3').and_return(four_song_third_page)
+      allow(URI).to receive(:open).with('https://www.whosampled.comhttps://www.whosampled.com/Francisco-Alves/Aquarela-Do-Brasil/covered/?cp=4').and_return(four_song_four_page)
     end
 
-    it 'has 3 songs' do
+    it 'has 4 songs' do
       songs = Pages.new(page).call
-      expect(songs.size).to eq 3
+      expect(songs.size).to eq 4
     end
 
     it 'has a array of hash with song datas' do
@@ -45,13 +57,21 @@ RSpec.describe Pages do
           name: 'Samba Da Benção',
           genre: 'World / Latin',
           year: 2000,
-          artist: "Bebel Gilberto",
+          artist: 'Bebel Gilberto',
           contains_samples_of: an_instance_of(Array),
           was_sampled_in: an_instance_of(Array),
           is_a_cover: an_instance_of(Array),
           was_covered_in: an_instance_of(Array),
           was_remixed_in: an_instance_of(Array)
         ),
+        a_hash_including(
+          name: 'Aquarela Do Brasil',
+          genre: 'World / Latin',
+          year: 1939,
+          artist: 'Francisco Alves',
+          was_sampled_in: an_instance_of(Array),
+          was_covered_in: an_instance_of(Array)
+        )
       ]
     end
 
@@ -288,6 +308,22 @@ RSpec.describe Pages do
               artist: '4 Hero'
             }
           )
+        end
+      end
+    end
+
+    context 'third song' do
+      context 'sampled' do
+        it 'was sampled in 12 songs' do
+          songs = Pages.new(page).call
+          expect(songs[3][:was_sampled_in].size).to eq 12
+        end
+      end
+
+      context 'covered' do
+        it 'was covered in 55 songs' do
+          songs = Pages.new(page).call
+          expect(songs[3][:was_covered_in].size).to eq 55
         end
       end
     end

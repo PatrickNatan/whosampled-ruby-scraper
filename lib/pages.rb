@@ -13,7 +13,7 @@ class Pages
     list.search('article').map do |article|
       song = article.css('h3.trackName')
       puts '-----------------------'
-      name_song =  song.css('a').css('span').text
+      name_song = song.css('a').css('span').text
       puts name_song
       puts '-----------------------'
       {
@@ -36,7 +36,7 @@ class Pages
       header = data.css('header')
       more_songs = header.css('a.moreButton')
       number_of_songs = header.text.scan(/\d+/)[0].to_i
-      text = header.text.split[0..2].join("_").downcase
+      text = header.text.split[0..2].join('_').downcase
       if number_of_songs < 4
         Hash[text.to_sym, data.search('div.listEntry').map { |song| sub_song(song) }]
       else
@@ -50,7 +50,19 @@ class Pages
 
   def more_data(url)
     page = Nokogiri::HTML(URI.open("https://www.whosampled.com#{url}"))
-    page.search('div.listEntry').map { |song| sub_song(song)}
+
+    number_of_songs = page.css('header.sectionHeader').text.scan(/\d+/)[0].to_i
+    if number_of_songs > 16
+      total_pages = page.css('div.pagination').css('span.page').last.text.to_i
+      all_songs = Array.new(page.search('div.listEntry').map { |song| sub_song(song) })
+      all_songs << 2.upto(total_pages).map do |t|
+        page = Nokogiri::HTML(URI.open("https://www.whosampled.com#{url}?cp=#{t}"))
+        page.search('div.listEntry').map { |song| sub_song(song) }
+      end
+      all_songs.flatten
+    else
+      page.search('div.listEntry').map { |song| sub_song(song) }
+    end
   end
 
   def sub_song(song)
