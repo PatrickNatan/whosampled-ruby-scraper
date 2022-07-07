@@ -312,7 +312,7 @@ RSpec.describe Pages do
       end
     end
 
-    context 'third song' do
+    context 'fourth song' do
       context 'sampled' do
         it 'was sampled in 12 songs' do
           songs = Pages.new(page).call
