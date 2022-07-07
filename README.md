@@ -143,3 +143,7 @@ Create a pageIraq.json
 ```
 
 </details>
+
+# Export
+
+[To Neo4j](https://github.com/PatrickNatan/whosampled-ruby-scraper/wiki/Export-to-Neo4j)
